@@ -1,0 +1,122 @@
+class FruitTree{
+    constructor(name,age, matureAge, dead, healthStatus, height){
+        this._name  = name || 'mango tree'
+        this._age   = age || 0
+        this._matureAge = matureAge || 8
+        this._dead = dead || 10
+        this._healthStatus = healthStatus || true
+        this._height = height || 0
+        this._fruits = []
+        this._harvested=''
+        
+    }
+    get name(){
+        return this._name
+    }
+    get height(){
+        return this._height
+    }
+    set height(num){
+        this._height=num
+    }
+    get age(){
+        return this._age
+    }
+    get matureAge (){
+        return this._matureAge
+    }
+    get dead (){
+        return this._dead
+    }
+    get healthStatus(){
+        return this._healthStatus
+    }
+    set healthStatus(num){
+        this._healthStatus=num
+    }
+    set harvested(str){
+        this._harvested=str
+    }
+    get harvested(){
+        return this._harvested
+    }
+    produce(){
+        let buahCount = Math.floor(Math.random() * Math.floor(20)+1)
+        let fruit = new Fruit()
+        for(let i = 0; i < buahCount; i++){
+            fruit.stats=Math.random()
+            if (fruit.stats < 0.45){
+                fruit.quality='Bad'
+                this._fruits.push(fruit)
+            }else{
+                fruit.quality='Good'
+                this._fruits.push(fruit)
+            }
+        }
+
+    }
+    grow(){
+        
+        this._age +=1
+        if (this._age >= this._dead){
+            this.healthStatus= false
+            
+        }
+
+        let height=Math.round(3*Math.random())
+        if (this._age < this._matureAge){
+        this._height+=height
+        }
+        
+    
+        
+    }
+
+    harvest(){
+        let countBad = 0
+        let countGood = 0
+        for (let i = 0 ; i < this._fruits.length; i++){
+            if (this._fruits[i].quality ='Good'){
+                // console.log(this._fruits[i])
+                countGood+=1
+            }else{
+                countBad+=1
+            }
+        }
+        this._harvested = `| Fruit Harvested = ${this._fruits.length} (${countGood} good, ${countBad} bad)`
+        this._fruits=[]
+        return this._harvested
+    }
+    
+
+}
+
+class Fruit extends FruitTree{
+    constructor(){
+        super()
+        this._quality='good'
+        this._stats=Math.random()
+    }
+    get quality(){
+        return this._quality
+    }
+    set quality(quality){
+        this._quality = quality
+    }
+    get stats(){
+        return this._stats
+    }
+    set stats(str){
+        return this._stats
+    }
+}
+
+console.log(`The tree is alive! :smile:`)
+let mangoTree = new FruitTree()
+do {
+  mangoTree.grow();
+    mangoTree.produce()
+  mangoTree.harvest();
+  console.log(`[Year ${mangoTree.age} Report] Height = ${mangoTree.height} | Fruits harvested = ${mangoTree.harvested}`)
+} while (mangoTree.healthStatus != false)
+console.log(`The tree has met its end. :sad:`)
